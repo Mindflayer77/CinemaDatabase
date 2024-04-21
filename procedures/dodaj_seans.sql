@@ -4,7 +4,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `dodaj_seans`(in seans_data date,
                                                           in wersja_id tinyint unsigned,
                                                           in slot tinyint unsigned,
                                                           in czas_trwania tinyint unsigned,
-                                                          in opis varchar(200))
+                                                          in opis varchar(200),
+                                                          in czas_rozpoczecia time)
 BEGIN
 	insert into seans (`data_seansu`,
 					   `film_id`,
@@ -12,12 +13,14 @@ BEGIN
                        `wersja_id`,
                        `slotNumer`,
                        `czas trwania`,
-                       `opis`)
+                       `opis`,
+                       `czas_rozpoczęcia`)
 					values (seans_data,
 							film_id,
 							sala_numer,
                             wersja_id,
                             slot,
                             czas_trwania,
-                            opis);
+                            opis,
+                            czas_rozpoczecia);
 END
