@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if actors %}
+    <ul>
+    {% for actor in actors %}
+        <li><a href="/cinemadb/actors/{{ actor.aktor_id }}/">{{ actor.nazwisko }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No actors are available.</p>
+{% endif %}
+</body>
+</html>
