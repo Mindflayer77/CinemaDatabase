@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "cinemadb",
+    "cinemadb.apps.CinemadbConfig",
 ]
 
 MIDDLEWARE = [
@@ -118,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "CEST"
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
