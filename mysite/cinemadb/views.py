@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponse, JsonResponse
-from .models import Aktor, Film
+from .models import Aktor, Film, FilmWidok
 from django.template import loader
 
 
@@ -27,9 +27,9 @@ def vote(request, aktor_id):
     return HttpResponse("You're voting on question %s." % aktor_id)
 
 
-def get_videos(request):
-    videos = list(Film.objects.values())
-    return JsonResponse(videos, safe=False)
+def get_films(request):
+    films = list(FilmWidok.objects.values())
+    return JsonResponse(films, safe=False)
 
 
 def library(request):

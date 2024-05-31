@@ -27,10 +27,15 @@
     </select>
 
     <table class="table table-bordered table-striped">
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th>Title</th>
+                <th>Production year</th>
+                <th>Age restriction</th>
+                <th>Description</th>
                 <th>Duration</th>
+                <th>Director</th>
+
             </tr>
         </thead>
         <tbody id="tableBody">
@@ -53,7 +58,7 @@
     let currentPage = 1;
 
     function fetchData() {
-        $.getJSON("{% url 'cinemadb:get_videos' %}", function(response) {
+        $.getJSON("{% url 'cinemadb:get_films' %}", function(response) {
             data = response;
             renderTable(data);
         });
@@ -70,7 +75,11 @@
         paginatedData.forEach(item => {
             const row = `<tr>
                             <td>${item.tytul}</td>
+                            <td>${item.rok_produkcji}</td>
+                            <td>${item.grupa_wiekowa}</td>
+                            <td>${item.opis_krotki}</td>
                             <td>${item.czas_trwania}</td>
+                            <td>${item.imie} ${item.nazwisko}</td>
                          </tr>`;
             tableBody.innerHTML += row;
         });
@@ -80,16 +89,14 @@
         const searchInput = document.getElementById('searchInput').value.toLowerCase();
         const filterInput = document.getElementById('filterInput').value;
 
-        let filteredData = data.filter(item => {
+        return data.filter(item => {
             let durationCondition = true;
-            if(filterInput === "less_than_100")
+            if (filterInput === "less_than_100")
                 durationCondition = item.czas_trwania < 100;
             else if (filterInput === "greater_than_100")
                 durationCondition = item.czas_trwania >= 100;
             return (item.tytul.toLowerCase().includes(searchInput) && durationCondition);
         });
-
-        return filteredData;
     }
 
     document.getElementById('searchInput').addEventListener('input', () => {
@@ -120,7 +127,6 @@
 
     // Initial render
     fetchData();
-    // renderTable(data);
 </script>
 
 </body>
