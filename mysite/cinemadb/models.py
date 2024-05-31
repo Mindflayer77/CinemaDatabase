@@ -461,3 +461,30 @@ class WersjaJezykowa(models.Model):
     class Meta:
         managed = False
         db_table = "wersja_jezykowa"
+
+
+class FilmWidok(models.Model):
+    film_id = models.AutoField(
+        db_column="Film_Id", primary_key=True
+    )  # Field name made lowercase.
+    tytul = models.CharField(
+        db_column="Tytuł", max_length=100
+    )  # Field name made lowercase.
+    rok_produkcji = models.TextField(
+        db_column="Rok produkcji", blank=True, null=True
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters. This field type is a guess.
+    grupa_wiekowa = models.PositiveIntegerField(
+        db_column="Grupa_Wiekowa"
+    )  # Field name made lowercase.
+    opis_krotki = models.CharField(
+        db_column="Opis krótki", max_length=1000
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    czas_trwania = models.PositiveIntegerField(
+        db_column="Czas trwania"
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    imie = models.CharField(db_column="Imię", max_length=45)
+    nazwisko = models.CharField(db_column="Nazwisko", max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = "film_widok"
