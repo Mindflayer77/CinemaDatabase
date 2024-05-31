@@ -40,8 +40,8 @@ class Aktor(models.Model):
             + " "
             + str(self.rok_urodzenia)
             + " "
-            + self.pseudonim
-            + " "
+            # + self.pseudonim
+            # + " "
             + self.opis
         )
 

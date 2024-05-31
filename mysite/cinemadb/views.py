@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponse
 from .models import Aktor
@@ -7,16 +7,14 @@ from django.template import loader
 
 def index(request):
     actors = Aktor.objects.all()
-    output = " ".join([a.nazwisko for a in actors])
-    template = loader.get_template("cinemadb/index.html")
-    context = {
-        "actors": actors,
-    }
+    context = {"actors": actors}
     return render(request, "cinemadb/index.html", context)
 
 
 def detail(request, aktor_id):
-    actor = Aktor.objects.get(aktor_id=aktor_id)
+    actor = get_object_or_404(Aktor, aktor_id=aktor_id)
+    actor = Aktor.objects.all().filter(aktor_id=aktor_id)
+    # print(actor.aktor_id)
     return HttpResponse(actor)
 
 

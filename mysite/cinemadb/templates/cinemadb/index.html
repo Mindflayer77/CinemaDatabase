@@ -8,7 +8,7 @@
 {% if actors %}
     <ul>
     {% for actor in actors %}
-        <li><a href="/cinemadb/actors/{{ actor.aktor_id }}/">{{ actor.nazwisko }}</a></li>
+        <li><a href="{% url 'cinemadb:detail' actor.aktor_id%}">{{ actor.aktor_id }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
