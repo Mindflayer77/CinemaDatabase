@@ -1,0 +1,22 @@
+.list li{float:left;width:15vw;height:12vh;
+        justify-content: center;
+        align-content: center;
+         border: 1px solid #dee2e6;
+            padding: 1rem;}
+          ul{text-align: center;
+          list-style-type: none;}
+
+          .container {
+    /*border: solid 1px #ff0000;*/
+    zoom: 1; /* IE6&7 */
+}
+
+.container:before,
+.container:after {
+    content: "";
+    display: table;
+}
+
+.container:after {
+    clear: both;
+}
