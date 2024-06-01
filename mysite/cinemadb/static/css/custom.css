@@ -8,6 +8,7 @@
 
           .container {
     /*border: solid 1px #ff0000;*/
+              position: relative;
     zoom: 1; /* IE6&7 */
 }
 
@@ -19,4 +20,15 @@
 
 .container:after {
     clear: both;
+}
+
+.center {
+display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_top {
+     align-self: center;
+     margin: 0 1rem 0 1rem;
 }

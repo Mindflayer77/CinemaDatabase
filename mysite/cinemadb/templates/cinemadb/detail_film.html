@@ -11,6 +11,13 @@
     <title>{{film.tytul}}</title>
 </head>
 <body>
+<div class="container mt-5" >
+    <div class="center">
+        <button type="button" class="btn btn-primary button_top">Repertoire</button>
+        <a href="{% url 'cinemadb:index' %}" class="btn btn-primary button_top">Home</a>
+        <a href="{% url 'cinemadb:library' %}" class="btn btn-primary button_top">Library</a>
+    </div>
+</div>
 <div class="container mt-5">
     <h2>Film details</h2>
     <table class="table table-bordered table-striped">
@@ -78,7 +85,7 @@
     <ul id="directors_list" class="list ">
          {% for director in directors %}
 <!--        <a href="{% url 'cinemadb:detail_film' film.film_id %}">-->
-            <li className="list-group-item list-group-item-primary">{{director.imie}} {{director.nazwisko}}</li>
+            <li className="list-group-item list-group-item-primary"><a href="{% url 'cinemadb:get_director' director.rezyser_id %}">{{director.imie}} {{director.nazwisko}}</a></li>
         {% endfor %}
     </ul>
 </div>
@@ -111,7 +118,7 @@
             item.forEach(actor =>{
                 let id = actor.aktor_id;
                 let actorUrl = baseUrl.replace('0', `${id}`);
-                const list_elem = `<li className="list-group-item list-group-item-primary"><a href="${actorUrl}">${actor.imie} ${actor.nazwisko}</li>`;
+                const list_elem = `<li className="list-group-item list-group-item-primary"><a href="${actorUrl}">${actor.imie} ${actor.nazwisko}</a></li>`;
                 listBody.innerHTML += list_elem;
             })
         });

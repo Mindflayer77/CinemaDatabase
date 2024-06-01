@@ -88,5 +88,19 @@ def get_actor(request, actor_id):
     )
 
 
+def get_director(request, director_id):
+    director = Rezyser.objects.all().filter(rezyser_id=director_id).first()
+    country = Kraj.objects.filter(kraj_id=director.kraj_id).first()
+    rezyser_film = RezyserFilm.objects.filter(rezyser_id=director_id)
+    films = []
+    for r in rezyser_film:
+        films.append(Film.objects.filter(film_id=r.film_id).first())
+    return render(
+        request,
+        "cinemadb/detail_rezyser.html",
+        {"director": director, "country": country, "films": films},
+    )
+
+
 def library(request):
     return render(request, "cinemadb/library.html")
