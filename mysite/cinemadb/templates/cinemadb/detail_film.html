@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>{{film.tytul}}</title>
+</head>
+<body>
+<div class="container mt-5" >
+    <div class="center">
+        <button type="button" class="btn btn-primary button_top">Repertoire</button>
+        <a href="{% url 'cinemadb:index' %}" class="btn btn-primary button_top">Home</a>
+        <a href="{% url 'cinemadb:library' %}" class="btn btn-primary button_top">Library</a>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2>Film details</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Title</th>
+                <th>Production year</th>
+                <th>Age restriction</th>
+                <th>Duration</th>
+                <th>Production country</th>
+                <th>Original language</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr>
+                <td>{{film.tytul}}</td>
+                <td>{{film.rok_produkcji}}</td>
+                <td>{{film.grupa_wiekowa}}</td>
+                <td>{{film.czas_trwania}} min</td>
+                <td>{% for country in countries %}
+                    {{country.nazwa}} <br>
+                    {%endfor %}
+                </td>
+                <td>{% for language in languages %}
+                    {{language.nazwa}} <br>
+                    {%endfor %}
+                </td>
+             </tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="container mt-5 ">
+     <table class="table table-bordered table-striped">
+         <thead>
+            <tr>
+                <th>Short description</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+                <td>{{film.opis_krotki}}</td>
+            </tr>
+         </tbody>
+     </table>
+</div>
+
+<div class="container mt-5">
+     <table class="table table-bordered table-striped">
+         <thead>
+            <tr>
+                <th>Long description</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+                <td>{{film.opis_dlugi}}</td>
+            </tr>
+         </tbody>
+     </table>
+</div>
+
+<div class="container mt-4">
+    <h4 class="text-center border border-2" >Directors</h4>
+    <ul id="directors_list" class="list ">
+         {% for director in directors %}
+<!--        <a href="{% url 'cinemadb:detail_film' film.film_id %}">-->
+            <li className="list-group-item list-group-item-primary"><a href="{% url 'cinemadb:get_director' director.rezyser_id %}">{{director.imie}} {{director.nazwisko}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="container mt-4">
+    <h4 class="text-center border border-2" >Actors</h4>
+    <ul id="actors_list" class="list ">
+
+    </ul>
+</div>
+
+</body>
+<script>
+
+    let data = []
+    // let baseUrl=;
+    function fetchActors() {
+        $.getJSON("{% url 'cinemadb:get_actors_for_film' film.film_id %}", function(response) {
+            data = response;
+            renderActorsList(data);
+        });
+    }
+
+    function renderActorsList(data) {
+        const listBody = document.getElementById('actors_list');
+        listBody.innerHTML = '';
+
+        let baseUrl="{% url 'cinemadb:get_actor' 0 %}";
+        data.forEach(item => {
+            item.forEach(actor =>{
+                let id = actor.aktor_id;
+                let actorUrl = baseUrl.replace('0', `${id}`);
+                const list_elem = `<li className="list-group-item list-group-item-primary"><a href="${actorUrl}">${actor.imie} ${actor.nazwisko}</a></li>`;
+                listBody.innerHTML += list_elem;
+            })
+        });
+    }
+
+    fetchActors();
+</script>
+</html>

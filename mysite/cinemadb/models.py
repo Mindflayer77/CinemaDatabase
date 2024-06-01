@@ -488,3 +488,37 @@ class FilmWidok(models.Model):
     class Meta:
         managed = False
         db_table = "film_widok"
+
+
+class FilmWidokDetail(models.Model):
+    film_id = models.AutoField(
+        db_column="Film_Id", primary_key=True
+    )  # Field name made lowercase.
+    tytul = models.CharField(
+        db_column="Tytuł", max_length=100
+    )  # Field name made lowercase.
+    rok_produkcji = models.TextField(
+        db_column="Rok produkcji", blank=True, null=True
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters. This field type is a guess.
+    grupa_wiekowa = models.PositiveIntegerField(
+        db_column="Grupa wiekowa"
+    )  # Field name made lowercase.
+    opis_krotki = models.CharField(
+        db_column="Opis krótki", max_length=1000
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    opis_dlugi = models.CharField(db_column="Opis długi", max_length=2000)
+    czas_trwania = models.PositiveIntegerField(
+        db_column="Czas trwania"
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    imie_rezyser = models.CharField(db_column="Imię", max_length=45)
+    nazwisko_rezyser = models.CharField(db_column="Nazwisko", max_length=45)
+    imie_aktor = models.CharField(db_column="IMAK", max_length=45)
+    nazwisko_aktor = models.CharField(db_column="NAAK", max_length=45)
+    kraj = models.CharField(db_column="KRANA", max_length=60)
+    kraj_skrot = models.CharField(db_column="Skrót", max_length=45)
+    gatunek = models.CharField(db_column="GATNA", max_length=30)
+    jezyk = models.CharField(db_column="JENA", max_length=30)
+
+    class Meta:
+        managed = False
+        db_table = "film_szczegolowo"

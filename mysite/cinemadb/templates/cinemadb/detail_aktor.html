@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>{{actor.imie}} {{actor.nazwisko}}</title>
+</head>
+<body>
+<div class="container mt-5" >
+    <div class="center">
+        <button type="button" class="btn btn-primary button_top">Repertoire</button>
+        <a href="{% url 'cinemadb:index' %}" class="btn btn-primary button_top">Home</a>
+        <a href="{% url 'cinemadb:library' %}" class="btn btn-primary button_top">Library</a>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2>Actor details</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>First Name</th>
+                <th>Surname</th>
+                <th>Country</th>
+                <th>Birth year</th>
+                <th>Gender</th>
+                <th>Nickname</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr>
+                <td>{{actor.imie}}</td>
+                <td>{{actor.nazwisko}}</td>
+                <td>{{country.nazwa}}</td>
+                <td>{{actor.rok_urodzenia}}</td>
+
+                <td>{% if actor.plec == 1%}
+                        Mężczyzna
+                    {% else %}
+                        Kobieta
+                    {% endif %}
+                </td>
+                <td>{{actor.pseudonim}}</td>
+             </tr>
+        </tbody>
+    </table>
+<div class="container mt-5">
+     <table class="table table-bordered table-striped">
+         <thead>
+            <tr>
+                <th>Description</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+                <td>{{actor.opis}}</td>
+            </tr>
+         </tbody>
+     </table>
+</div>
+<div class="container mt-4 ">
+    <h4 class="text-center border border-2" >Films</h4>
+    <ul id="films_list" class="list ">
+        {% for film in films %}
+            <li className="list-group-item list-group-item-primary"><a href="{% url 'cinemadb:detail_film' film.film_id %}">{{film.tytul}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+</body>
+<style>
+    .list li{float:left;width:15vw;height:10vh;
+         border: 1px solid #dee2e6;
+            padding: 1rem;}
+          ul{text-align: center;
+          list-style-type: none;}
+</style>
+</html>
