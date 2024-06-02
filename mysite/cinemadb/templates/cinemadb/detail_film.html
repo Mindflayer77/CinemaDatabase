@@ -13,7 +13,7 @@
 <body>
 <div class="container mt-5" >
     <div class="center">
-        <button type="button" class="btn btn-primary button_top">Repertoire</button>
+        <a href="{% url 'cinemadb:get_repertoire' %}" class="btn btn-primary button_top">Repertoire</a>
         <a href="{% url 'cinemadb:index' %}" class="btn btn-primary button_top">Home</a>
         <a href="{% url 'cinemadb:library' %}" class="btn btn-primary button_top">Library</a>
     </div>
@@ -35,7 +35,7 @@
             <tr>
                 <td>{{film.tytul}}</td>
                 <td>{{film.rok_produkcji}}</td>
-                <td>{{film.grupa_wiekowa}}</td>
+                <td>{{film.grupa_wiekowa.wiek}}</td>
                 <td>{{film.czas_trwania}} min</td>
                 <td>{% for country in countries %}
                     {{country.nazwa}} <br>

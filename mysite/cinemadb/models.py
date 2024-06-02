@@ -18,8 +18,8 @@ class Aktor(models.Model):
     nazwisko = models.CharField(
         db_column="Nazwisko", max_length=45
     )  # Field name made lowercase.
-    kraj_id = models.PositiveIntegerField(
-        db_column="Kraj_Id", blank=True, null=True
+    kraj = models.ForeignKey(
+        "Kraj", models.DO_NOTHING, db_column="Kraj_Id", blank=True, null=True
     )  # Field name made lowercase.
     rok_urodzenia = models.TextField(
         db_column="Rok urodzenia", blank=True, null=True
@@ -31,19 +31,6 @@ class Aktor(models.Model):
     pseudonim = models.CharField(
         db_column="Pseudonim", max_length=50, blank=True, null=True
     )  # Field name made lowercase.
-
-    def __str__(self):
-        return (
-            self.imie
-            + " "
-            + self.nazwisko
-            + " "
-            + str(self.rok_urodzenia)
-            + " "
-            # + self.pseudonim
-            # + " "
-            + self.opis
-        )
 
     class Meta:
         managed = False
@@ -185,8 +172,8 @@ class Film(models.Model):
     opis_dlugi = models.CharField(
         db_column="Opis dlugi", max_length=2000, blank=True, null=True
     )  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    grupa_wiekowa = models.PositiveIntegerField(
-        db_column="Grupa_Wiekowa"
+    grupa_wiekowa = models.ForeignKey(
+        "GrupaWiekowa", models.DO_NOTHING, db_column="Grupa_Wiekowa"
     )  # Field name made lowercase.
 
     class Meta:
@@ -195,14 +182,18 @@ class Film(models.Model):
 
 
 class FilmAktor(models.Model):
-    film_id = models.PositiveIntegerField(
-        db_column="Film_Id", primary_key=True
+    film = models.OneToOneField(
+        Film, models.DO_NOTHING, db_column="Film_Id", primary_key=True
     )  # Field name made lowercase. The composite primary key (Film_Id, Aktor_Id) found, that is not supported. The first column is selected.
-    aktor_id = models.PositiveIntegerField(
-        db_column="Aktor_Id"
+    aktor = models.ForeignKey(
+        Aktor, models.DO_NOTHING, db_column="Aktor_Id"
     )  # Field name made lowercase.
-    film = models.PositiveIntegerField(db_column="Film")  # Field name made lowercase.
-    aktor = models.PositiveIntegerField(db_column="Aktor")  # Field name made lowercase.
+    film_0 = models.PositiveIntegerField(
+        db_column="Film"
+    )  # Field name made lowercase. Field renamed because of name conflict.
+    aktor_0 = models.PositiveIntegerField(
+        db_column="Aktor"
+    )  # Field name made lowercase. Field renamed because of name conflict.
     rola = models.CharField(
         db_column="Rola", max_length=200, blank=True, null=True
     )  # Field name made lowercase.
@@ -213,7 +204,7 @@ class FilmAktor(models.Model):
     class Meta:
         managed = False
         db_table = "film_aktor"
-        unique_together = (("film_id", "aktor_id"),)
+        unique_together = (("film", "aktor"),)
 
 
 class Gatunek(models.Model):
@@ -233,21 +224,23 @@ class Gatunek(models.Model):
 
 
 class GatunekFilm(models.Model):
-    film_id = models.PositiveIntegerField(
-        db_column="Film_Id", primary_key=True
+    film = models.OneToOneField(
+        Film, models.DO_NOTHING, db_column="Film_Id", primary_key=True
     )  # Field name made lowercase. The composite primary key (Film_Id, Gatunek_Id) found, that is not supported. The first column is selected.
-    gatunek_id = models.PositiveIntegerField(
-        db_column="Gatunek_Id"
+    gatunek = models.ForeignKey(
+        Gatunek, models.DO_NOTHING, db_column="Gatunek_Id"
     )  # Field name made lowercase.
-    film = models.PositiveIntegerField(db_column="Film")  # Field name made lowercase.
-    gatunek = models.PositiveIntegerField(
+    film_0 = models.PositiveIntegerField(
+        db_column="Film"
+    )  # Field name made lowercase. Field renamed because of name conflict.
+    gatunek_0 = models.PositiveIntegerField(
         db_column="Gatunek"
-    )  # Field name made lowercase.
+    )  # Field name made lowercase. Field renamed because of name conflict.
 
     class Meta:
         managed = False
         db_table = "gatunek_film"
-        unique_together = (("film_id", "gatunek_id"),)
+        unique_together = (("film", "gatunek"),)
 
 
 class GrupaWiekowa(models.Model):
@@ -280,19 +273,23 @@ class Jezyk(models.Model):
 
 
 class JezykFilm(models.Model):
-    jezyk_id = models.PositiveIntegerField(
-        db_column="Jezyk_Id", primary_key=True
+    jezyk = models.OneToOneField(
+        Jezyk, models.DO_NOTHING, db_column="Jezyk_Id", primary_key=True
     )  # Field name made lowercase. The composite primary key (Jezyk_Id, Film_Id) found, that is not supported. The first column is selected.
-    film_id = models.PositiveIntegerField(
-        db_column="Film_Id"
+    film = models.ForeignKey(
+        Film, models.DO_NOTHING, db_column="Film_Id"
     )  # Field name made lowercase.
-    jezyk = models.PositiveIntegerField(db_column="Jezyk")  # Field name made lowercase.
-    film = models.PositiveIntegerField(db_column="Film")  # Field name made lowercase.
+    jezyk_0 = models.PositiveIntegerField(
+        db_column="Jezyk"
+    )  # Field name made lowercase. Field renamed because of name conflict.
+    film_0 = models.PositiveIntegerField(
+        db_column="Film"
+    )  # Field name made lowercase. Field renamed because of name conflict.
 
     class Meta:
         managed = False
         db_table = "jezyk_film"
-        unique_together = (("jezyk_id", "film_id"),)
+        unique_together = (("jezyk", "film"),)
 
 
 class Kraj(models.Model):
@@ -315,19 +312,23 @@ class Kraj(models.Model):
 
 
 class KrajProdukcji(models.Model):
-    film_id = models.PositiveIntegerField(
-        db_column="Film_Id", primary_key=True
+    film = models.OneToOneField(
+        Film, models.DO_NOTHING, db_column="Film_Id", primary_key=True
     )  # Field name made lowercase. The composite primary key (Film_Id, Kraj_Id) found, that is not supported. The first column is selected.
-    kraj_id = models.PositiveIntegerField(
-        db_column="Kraj_Id"
+    kraj = models.ForeignKey(
+        Kraj, models.DO_NOTHING, db_column="Kraj_Id"
     )  # Field name made lowercase.
-    film = models.PositiveIntegerField(db_column="Film")  # Field name made lowercase.
-    kraj = models.PositiveIntegerField(db_column="Kraj")  # Field name made lowercase.
+    film_0 = models.PositiveIntegerField(
+        db_column="Film"
+    )  # Field name made lowercase. Field renamed because of name conflict.
+    kraj_0 = models.PositiveIntegerField(
+        db_column="Kraj"
+    )  # Field name made lowercase. Field renamed because of name conflict.
 
     class Meta:
         managed = False
         db_table = "kraj_produkcji"
-        unique_together = (("film_id", "kraj_id"),)
+        unique_together = (("film", "kraj"),)
 
 
 class Rezyser(models.Model):
@@ -340,8 +341,8 @@ class Rezyser(models.Model):
     nazwisko = models.CharField(
         db_column="Nazwisko", max_length=45
     )  # Field name made lowercase.
-    kraj_id = models.PositiveIntegerField(
-        db_column="Kraj_Id", blank=True, null=True
+    kraj = models.ForeignKey(
+        Kraj, models.DO_NOTHING, db_column="Kraj_Id", blank=True, null=True
     )  # Field name made lowercase.
     rok_urodzenia = models.TextField(
         db_column="Rok_urodzenia", blank=True, null=True
@@ -360,21 +361,23 @@ class Rezyser(models.Model):
 
 
 class RezyserFilm(models.Model):
-    rezyser_id = models.PositiveIntegerField(
-        db_column="Rezyser_Id", primary_key=True
+    rezyser = models.OneToOneField(
+        Rezyser, models.DO_NOTHING, db_column="Rezyser_Id", primary_key=True
     )  # Field name made lowercase. The composite primary key (Rezyser_Id, Film_Id) found, that is not supported. The first column is selected.
-    film_id = models.PositiveIntegerField(
-        db_column="Film_Id"
+    film = models.ForeignKey(
+        Film, models.DO_NOTHING, db_column="Film_Id"
     )  # Field name made lowercase.
-    rezyser = models.PositiveIntegerField(
+    rezyser_0 = models.PositiveIntegerField(
         db_column="Rezyser"
-    )  # Field name made lowercase.
-    film = models.PositiveIntegerField(db_column="Film")  # Field name made lowercase.
+    )  # Field name made lowercase. Field renamed because of name conflict.
+    film_0 = models.PositiveIntegerField(
+        db_column="Film"
+    )  # Field name made lowercase. Field renamed because of name conflict.
 
     class Meta:
         managed = False
         db_table = "rezyser_film"
-        unique_together = (("rezyser_id", "film_id"),)
+        unique_together = (("rezyser", "film"),)
 
 
 class Sala(models.Model):
@@ -400,17 +403,17 @@ class Seans(models.Model):
     data_seansu = models.DateField(
         db_column="Data_seansu"
     )  # Field name made lowercase.
-    film_id = models.PositiveIntegerField(
-        db_column="Film_Id"
+    film = models.ForeignKey(
+        Film, models.DO_NOTHING, db_column="Film_Id"
     )  # Field name made lowercase.
-    sala_numer = models.PositiveIntegerField(
-        db_column="Sala_numer"
+    sala_numer = models.ForeignKey(
+        Sala, models.DO_NOTHING, db_column="Sala_numer"
     )  # Field name made lowercase.
-    wersja_id = models.PositiveIntegerField(
-        db_column="Wersja_Id"
+    wersja = models.ForeignKey(
+        "WersjaJezykowa", models.DO_NOTHING, db_column="Wersja_Id"
     )  # Field name made lowercase.
-    slotnumer = models.PositiveIntegerField(
-        db_column="SlotNumer"
+    slotnumer = models.ForeignKey(
+        "Slot", models.DO_NOTHING, db_column="SlotNumer"
     )  # Field name made lowercase.
     czas_trwania = models.PositiveIntegerField(
         db_column="Czas trwania"
@@ -451,8 +454,8 @@ class WersjaJezykowa(models.Model):
         db_column="Wersja_Id", primary_key=True
     )  # Field name made lowercase.
     typ = models.CharField(db_column="Typ", max_length=30)  # Field name made lowercase.
-    jezyk_id = models.PositiveIntegerField(
-        db_column="Jezyk_Id"
+    jezyk = models.ForeignKey(
+        Jezyk, models.DO_NOTHING, db_column="Jezyk_Id"
     )  # Field name made lowercase.
     opis = models.CharField(
         db_column="Opis", max_length=100, blank=True, null=True

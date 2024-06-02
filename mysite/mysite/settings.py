@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "cinemadb.apps.CinemadbConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import SeansSerializer
 from django.http import HttpResponse, JsonResponse
 from .models import (
     Aktor,
     Film,
-    FilmWidok,
-    FilmWidokDetail,
     FilmAktor,
     Kraj,
     RezyserFilm,
@@ -13,6 +13,9 @@ from .models import (
     JezykFilm,
     Jezyk,
     KrajProdukcji,
+    Seans,
+    WersjaJezykowa,
+    FilmWidok,
 )
 from django.template import loader
 
@@ -66,6 +69,34 @@ def get_films(request):
     return JsonResponse(films, safe=False)
 
 
+# def get_screenings(request):
+#     show = list(Seans.objects.all().values())
+#     # show_list = []
+#     # # print(show)
+#     # for s in show:
+#     #     # film = Film.objects.get(film_id=s.film_id)
+#     #     # wersja = WersjaJezykowa.objects.get(wersja_id=s.wersja_id)
+#     #     # print(film[0][0])
+#     #     # print(show)
+#     #     single_show = {
+#     #         "seans_id": s.seans_id,
+#     #         "date": s.data_seansu,
+#     #         "sala": s.sala_numer.sala_numer,
+#     #         "duration": s.czas_trwania,
+#     #         "description": s.opis,
+#     #         "start_time": s.czas_rozpoczecia,
+#     #         # "film": film[0][0],
+#     #         # "film": s.film.tytul,
+#     #         # "wersja": s.wersja.wersja_id,
+#     #     }
+#     #     show_list.append(single_show)
+#     return JsonResponse(show, safe=False)
+
+
+def repertoire(request):
+    return render(request, "cinemadb/repertoire.html")
+
+
 def get_actors_for_film(request, film_id):
     film_aktor = FilmAktor.objects.all().filter(film_id=film_id)
     actors_list = []
@@ -104,3 +135,11 @@ def get_director(request, director_id):
 
 def library(request):
     return render(request, "cinemadb/library.html")
+
+
+class SeansListAPIView(APIView):
+    def get(self, request):
+        screenings = Seans.objects.all()
+        serializer = SeansSerializer(screenings, many=True)
+
+        return Response(serializer.data)
