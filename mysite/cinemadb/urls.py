@@ -13,7 +13,6 @@ urlpatterns = [
         name="get_actors_for_film",
     ),
     path("films", views.get_films, name="get_films"),
-    # path("screenings", views.get_screenings, name="get_screenings"),
     path("repertoire", views.repertoire, name="get_repertoire"),
     path("actor/<int:actor_id>", views.get_actor, name="get_actor"),
     path("director/<int:director_id>", views.get_director, name="get_director"),

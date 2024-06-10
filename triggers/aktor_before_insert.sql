@@ -1,4 +1,7 @@
-CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`Aktor_BEFORE_INSERT` BEFORE INSERT ON `Aktor` FOR EACH ROW
+create definer = cinema_admin@`%` trigger Aktor_BEFORE_INSERT
+    before insert
+    on aktor
+    for each row
 BEGIN
 	set @it = 0;
     set @var = 0;
@@ -10,4 +13,6 @@ BEGIN
             leave licznik;
 		end if;
 	end loop licznik;
-END
+END;
+
+

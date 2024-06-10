@@ -1,4 +1,14 @@
-CREATE VIEW `film_widok` AS
-SELECT Film.Film_Id, Film.Tytuł, 'Rok produkcji', Film.Grupa_Wiekowa, 'Opis krótki', 'Czas trwania', Reżyser.Imię, Reżyser.Nazwisko FROM Film
-JOIN Reżyser_Film, Reżyser WHERE Reżyser.Reżyser_Id = Reżyser_Film.Reżyser_Id 
-AND Reżyser_Film.Film_Id = Film.Film_Id;
+create definer = cinema_admin@`%` view film_widok as
+select `mydb`.`film`.`Film_Id`       AS `Film_Id`,
+       `mydb`.`film`.`Tytul`         AS `Tytuł`,
+       `mydb`.`film`.`Rok produkcji` AS `Rok produkcji`,
+       `mydb`.`film`.`Grupa_Wiekowa` AS `Grupa_Wiekowa`,
+       `mydb`.`film`.`Opis krotki`   AS `Opis krótki`,
+       `mydb`.`film`.`Czas trwania`  AS `Czas trwania`,
+       `mydb`.`rezyser`.`Imie`       AS `Imię`,
+       `mydb`.`rezyser`.`Nazwisko`   AS `Nazwisko`
+from ((`mydb`.`film` join `mydb`.`rezyser_film`
+       on ((`mydb`.`rezyser_film`.`Film_Id` = `mydb`.`film`.`Film_Id`))) join `mydb`.`rezyser`
+      on ((`mydb`.`rezyser`.`Rezyser_Id` = `mydb`.`rezyser_film`.`Rezyser_Id`)));
+
+

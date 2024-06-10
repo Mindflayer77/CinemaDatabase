@@ -1,8 +1,10 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `dodaj_jezyk`(in nazwa varchar(30),
-														  in opis varchar(100))
+create
+    definer = cinema_admin@air procedure dodaj_jezyk(IN nazwa varchar(30), IN opis varchar(100))
 BEGIN
-	insert into język (`Nazwa`,
+	insert into jezyk (`Nazwa`,
 					   `opis`)
 					values (nazwa,
 							opis);
-END
+END;
+
+

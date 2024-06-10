@@ -1,15 +1,13 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `dodaj_film`(IN tytul varchar(45), 
-														IN rok_produkcji year, 
-                                                        IN czas_trwania tinyint unsigned, 
-                                                        IN opis_krotki varchar(500), 
-                                                        IN opis_dlugi varchar(2000), 
-                                                        IN grupa_wiekowa tinyint unsigned)
+create
+    definer = cinema_admin@air procedure dodaj_film(IN tytul varchar(100), IN rok_produkcji year,
+                                                    IN czas_trwania tinyint unsigned, IN opis_krotki varchar(1000),
+                                                    IN opis_dlugi varchar(2000), IN grupa_wiekowa tinyint unsigned)
 BEGIN
-    INSERT INTO film (`Tytuł`,
+    INSERT INTO film (`Tytul`,
 					`Rok produkcji`, 
                     `Czas trwania`, 
-                    `Opis krótki`, 
-                    `Opis długi`, 
+                    `Opis krotki`, 
+                    `Opis dlugi`, 
                     `Grupa_Wiekowa`) 
 			VALUES (tytul,
 					rok_produkcji,
@@ -17,4 +15,6 @@ BEGIN
 					opis_krotki, 
 					opis_dlugi, 
 					grupa_wiekowa);
-END
+END;
+
+

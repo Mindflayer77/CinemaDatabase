@@ -1,7 +1,14 @@
-CREATE VIEW `seans_widok` AS
-SELECT Film.Tytuł, 'Film.Rok produkcji', 'Film.Czas Trwania', Sala.Sala_numer, Wersja_Językowa.Typ, Język.Nazwa FROM Seans
-JOIN Sala, Wersja_Językowa, Film, Język
-WHERE Seans.Film_Id = Film.Film_Id AND
-Seans.Sala_numer = Sala.Sala_numer AND
-Seans.Wersja_Id = Wersja_Językowa.Wersja_Id AND
-Wersja_Językowa.Język_Id = Język.Język_Id;
+create definer = cinema_admin@`%` view seans_widok as
+select `mydb`.`film`.`Tytul`          AS `Tytuł`,
+       `mydb`.`film`.`Rok produkcji`  AS `Film.Rok produkcji`,
+       `mydb`.`film`.`Czas trwania`   AS `Film.Czas Trwania`,
+       `mydb`.`sala`.`Sala_numer`     AS `Sala_numer`,
+       `mydb`.`wersja_jezykowa`.`Typ` AS `Typ`,
+       `mydb`.`jezyk`.`Nazwa`         AS `Nazwa`
+from ((((`mydb`.`seans` join `mydb`.`sala`
+         on ((`mydb`.`sala`.`Sala_numer` = `mydb`.`seans`.`Sala_numer`))) join `mydb`.`film`
+        on ((`mydb`.`film`.`Film_Id` = `mydb`.`seans`.`Film_Id`))) join `mydb`.`wersja_jezykowa`
+       on ((`mydb`.`wersja_jezykowa`.`Wersja_Id` = `mydb`.`seans`.`Wersja_Id`))) join `mydb`.`jezyk`
+      on ((`mydb`.`jezyk`.`Jezyk_Id` = `mydb`.`wersja_jezykowa`.`Jezyk_Id`)));
+
+

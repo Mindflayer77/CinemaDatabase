@@ -1,26 +1,23 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `dodaj_aktora`(in imie varchar(45),
-															 in nazwisko varchar(45),
-                                                             in nazwa_kraju varchar(60),
-                                                             in rok_urodzenia year,
-                                                             in plec tinyint unsigned,
-                                                             in opis varchar(300),
-                                                             in pseudonim varchar(50))
+create
+    definer = cinema_admin@air procedure dodaj_aktora(IN imie varchar(45), IN nazwisko varchar(45),
+                                                      IN id_kraj tinyint unsigned, IN rok_urodzenia year,
+                                                      IN plec tinyint unsigned, IN opis varchar(300),
+                                                      IN pseudonim varchar(50))
 BEGIN
-    set @kraj_id = 0;
-    set @tmp = nazwa_kraju;
-    select Kraj_id into @kraj_id from kraj where Nazwa = @tmp;
-    insert into aktor (`Imię`,
+    insert into aktor (`Imie`,
                          `Nazwisko`,
                          `Kraj_id`,
                          `Rok urodzenia`,
-                         `Płeć`,
+                         `Plec`,
                          `Opis`,
                          `Pseudonim`)
                          values (imie,
                                  nazwisko,
-                                 @kraj_id,
+                                 id_kraj,
                                  rok_urodzenia,
                                  plec,
                                  opis,
                                  pseudonim);
-END
+END;
+
+
